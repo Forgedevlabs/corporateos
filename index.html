@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CorporateOS — AI-Native Business Operating System | Coming Soon</title>
+  <meta name="description" content="96 markdown files. Every SOP exists because something broke without it. Join the waitlist — launching soon.">
+  <meta property="og:title" content="CorporateOS — AI-Native Business Operating System">
+  <meta property="og:description" content="96 markdown files. Deploy in 15 minutes. Join the waitlist.">
+  <meta property="og:type" content="website">
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --surface: #141414;
+      --border: #262626;
+      --text: #e5e5e5;
+      --text-muted: #a3a3a3;
+      --accent: #22c55e;
+      --accent-hover: #16a34a;
+      --accent-bg: rgba(34, 197, 94, 0.08);
+      --mono: 'SF Mono', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* NAV */
+    .topbar {
+      border-bottom: 1px solid var(--border);
+      padding: 16px 0;
+    }
+    .topbar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .topbar-logo {
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .topbar-badge {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+      background: var(--accent-bg);
+      padding: 4px 10px;
+      border-radius: 3px;
+      border: 1px solid rgba(34, 197, 94, 0.2);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* HERO */
+    .hero {
+      padding: 80px 0 48px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero p {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin: 0 auto 36px;
+      line-height: 1.7;
+    }
+
+    /* EMAIL FORM */
+    .email-capture {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 32px;
+      margin-bottom: 48px;
+    }
+    .email-capture h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+    .email-capture .subtext {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .email-form {
+      display: flex;
+      gap: 8px;
+    }
+    .email-form input[type="email"] {
+      flex: 1;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 12px 16px;
+      border-radius: 4px;
+      font-size: 15px;
+      font-family: var(--sans);
+    }
+    .email-form input[type="email"]:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .email-form button {
+      background: var(--accent);
+      color: #000;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .email-form button:hover { background: var(--accent-hover); }
+    .privacy-note {
+      margin-top: 12px;
+      font-size: 12px;
+      color: #525252;
+    }
+
+    /* WHAT YOU GET */
+    .features {
+      padding: 0 0 48px;
+    }
+    .features h2 {
+      font-size: 22px;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 20px;
+    }
+    .feature-card h4 {
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: var(--accent);
+      font-family: var(--mono);
+    }
+    .feature-card p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* PRICING PREVIEW */
+    .pricing-preview {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 32px;
+      margin-bottom: 48px;
+      text-align: center;
+    }
+    .pricing-preview h3 {
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+    .price-row {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-bottom: 16px;
+    }
+    .price-item {
+      text-align: center;
+    }
+    .price-item .amount {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--accent);
+      font-family: var(--mono);
+    }
+    .price-item .label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .pricing-note {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* PROOF */
+    .proof {
+      padding: 0 0 48px;
+    }
+    .proof h2 {
+      font-size: 22px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .proof-list {
+      list-style: none;
+    }
+    .proof-list li {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .proof-list li::before {
+      content: "✓";
+      color: var(--accent);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* FINAL CTA */
+    .final-cta {
+      text-align: center;
+      padding: 48px 0 80px;
+      border-top: 1px solid var(--border);
+    }
+    .final-cta h2 {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+    .final-cta p {
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      font-size: 15px;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 0;
+      text-align: center;
+      font-size: 12px;
+      color: #525252;
+    }
+
+    /* SUCCESS STATE */
+    .success-message {
+      display: none;
+      text-align: center;
+      padding: 20px;
+    }
+    .success-message h4 {
+      color: var(--accent);
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+    .success-message p {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 28px; }
+      .hero { padding: 48px 0 32px; }
+      .email-form { flex-direction: column; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .price-row { flex-direction: column; gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="topbar">
+    <div class="container">
+      <span class="topbar-logo">CorporateOS</span>
+      <span class="topbar-badge">Launching Soon</span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <h1>Your AI Agents Need <span>Written Rules</span></h1>
+      <p>96 markdown files. Every SOP exists because something broke without it. Deploy in 15 minutes. Your agents read it natively.</p>
+
+      <!-- PRIMARY EMAIL CAPTURE -->
+      <div class="email-capture" id="hero-capture">
+        <h3>Join the waitlist — get 5 free SOPs immediately</h3>
+        <p class="subtext">Be first to know when CorporateOS launches. Plus, get our "5 SOPs Every Solo Founder Needs" guide free.</p>
+        <!-- 
+          DEPLOYMENT NOTE: Replace the form action with one of these:
+          
+          Option A — Formspree (free, 50 submissions/mo):
+          action="https://formspree.io/f/YOUR_FORM_ID"
+          
+          Option B — FormSubmit (free, unlimited):
+          action="https://formsubmit.co/forgehq@proton.me"
+          
+          Option C — Listmonk self-hosted:
+          action="https://your-listmonk-instance/subscription/form"
+          
+          Option D — Buttondown:
+          action="https://buttondown.com/api/emails/embed-subscribe/YOUR_LIST"
+        -->
+        <form class="email-form" id="waitlist-form" action="https://formsubmit.co/forgehq@proton.me" method="POST">
+          <!-- FormSubmit config -->
+          <input type="hidden" name="_subject" value="New CorporateOS Waitlist Signup">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_autoresponse" value="Thanks for joining the CorporateOS waitlist! Download your free 5 SOPs guide here: https://forgedevlabs.github.io/corporateos/5-SOPs-Every-Solo-Founder-Needs.zip — We'll email you the moment CorporateOS launches.">
+          <input type="hidden" name="_next" value=""><!-- Set to thank-you page URL -->
+          <input type="text" name="_honey" style="display:none"><!-- Honeypot spam filter -->
+          <input type="email" name="email" placeholder="your@email.com" required>
+          <button type="submit">Join Waitlist</button>
+        </form>
+        <p class="privacy-note">No spam. Unsubscribe anytime. We'll email you when we launch + send the free SOPs guide.</p>
+      </div>
+
+      <!-- SUCCESS STATE (shown after submit via JS) -->
+      <div class="success-message" id="success-state">
+        <h4>You're on the list ✓</h4>
+        <p>Check your email for the free "5 SOPs Every Solo Founder Needs" guide. We'll notify you the moment CorporateOS launches.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT'S INSIDE -->
+  <section class="features">
+    <div class="container">
+      <h2>What's Inside CorporateOS</h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h4>05_SOP/</h4>
+          <p>Decision frameworks, hiring workflows, vendor evaluation, meeting protocols. The playbooks your agents follow.</p>
+        </div>
+        <div class="feature-card">
+          <h4>06_TEMPLATES/</h4>
+          <p>Board reports, 1-on-1 agendas, project briefs, RFP responses. Start from structure, not blank pages.</p>
+        </div>
+        <div class="feature-card">
+          <h4>04_FINANCE/</h4>
+          <p>Budget tracking, revenue models, expense categorization, financial reporting. The numbers that keep you alive.</p>
+        </div>
+        <div class="feature-card">
+          <h4>08_SECURITY/</h4>
+          <p>Access control, incident response, security logging, platform policies. Protection before you need it.</p>
+        </div>
+        <div class="feature-card">
+          <h4>03_GOALS/</h4>
+          <p>OKR frameworks, quarterly planning, milestone tracking. Goals your agents can reference and measure against.</p>
+        </div>
+        <div class="feature-card">
+          <h4>09_STATE/</h4>
+          <p>System state files, agent status, operational snapshots. Your agents know what's happening without asking you.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING PREVIEW -->
+  <section>
+    <div class="container">
+      <div class="pricing-preview">
+        <h3>Simple Pricing, No Subscriptions</h3>
+        <div class="price-row">
+          <div class="price-item">
+            <div class="amount">$49</div>
+            <div class="label">Core — 96 files</div>
+          </div>
+          <div class="price-item">
+            <div class="amount">$129</div>
+            <div class="label">Full — Everything + add-ons</div>
+          </div>
+        </div>
+        <p class="pricing-note">One purchase. Yours forever. 30-day money-back guarantee.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY THIS EXISTS -->
+  <section class="proof">
+    <div class="container">
+      <h2>Why CorporateOS Exists</h2>
+      <ul class="proof-list">
+        <li>Your AI agents can't read Notion templates. They can't navigate Google Docs. Markdown is the only format they read natively.</li>
+        <li>96 files, each one written because something broke without it. This isn't a template pack — it's an operating system.</li>
+        <li>Deploy in 15 minutes. Drop into any git repo. Your agents can reference SOPs, follow decision frameworks, and stay within boundaries immediately.</li>
+        <li>Built by a team that runs an AI-native company with AI executives. We dogfood this daily.</li>
+        <li>You could build this yourself. It took us 6 months and dozens of operational failures. $49 buys you the shortcut.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final-cta">
+    <div class="container">
+      <h2>Be First to Know</h2>
+      <p>We're launching soon. Join the waitlist and get 5 free SOPs immediately.</p>
+      <form class="email-form" action="https://formsubmit.co/forgehq@proton.me" method="POST" style="max-width:480px;margin:0 auto;">
+        <input type="hidden" name="_subject" value="New CorporateOS Waitlist Signup (Footer)">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_autoresponse" value="Thanks for joining the CorporateOS waitlist! Download your free 5 SOPs guide: https://forgedevlabs.github.io/corporateos/5-SOPs-Every-Solo-Founder-Needs.zip">
+        <input type="text" name="_honey" style="display:none">
+        <input type="email" name="email" placeholder="your@email.com" required>
+        <button type="submit">Join Waitlist</button>
+      </form>
+      <p class="privacy-note" style="margin-top:12px;">No spam. Free SOPs guide on signup. Launch notification when we're live.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p>CorporateOS by The Forge — © 2026</p>
+    </div>
+  </footer>
+
+</body>
+</html>
