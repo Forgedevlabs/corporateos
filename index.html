@@ -1,1867 +1,428 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CorporateOS by The Forge — Run Your Company Like a Company</title>
-<meta name="description" content="CorporateOS by The Forge — Every SOP, charter, and governance doc a growing company needs. Plain markdown your team and AI agents read on Day 1. 80+ files. $49.">
-<style>
-@layer reset, tokens, layout, components, sections, animations, responsive;
-
-/* ════════════════════════════════════════════════════
-   RESET
-   ════════════════════════════════════════════════════ */
-@layer reset {
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-  body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-  a { color: inherit; text-decoration: none; }
-  ul, ol { list-style: none; }
-  img { max-width: 100%; display: block; }
-  button { font: inherit; cursor: pointer; border: none; background: none; }
-}
-
-/* ════════════════════════════════════════════════════
-   TOKENS — CorporateOS Brand
-   ════════════════════════════════════════════════════ */
-@layer tokens {
-  :root {
-    /* Palette */
-    --cos-slate-900: #0F172A;
-    --cos-slate-800: #1E293B;
-    --cos-slate-700: #334155;
-    --cos-slate-600: #475569;
-    --cos-slate-500: #64748B;
-    --cos-slate-400: #94A3B8;
-    --cos-slate-300: #CBD5E1;
-    --cos-slate-200: #E2E8F0;
-    --cos-slate-100: #F1F5F9;
-    --cos-slate-50:  #F8FAFC;
-
-    --cos-blue-600: #2563EB;
-    --cos-blue-500: #3B82F6;
-    --cos-blue-400: #60A5FA;
-    --cos-blue-100: #DBEAFE;
-    --cos-blue-50:  #EFF6FF;
-
-    --cos-amber-500: #F59E0B;
-    --cos-amber-400: #FBBF24;
-
-    --cos-green-500: #10B981;
-    --cos-green-400: #34D399;
-    --cos-green-100: #D1FAE5;
-
-    --cos-red-500: #EF4444;
-    --cos-red-100: #FEE2E2;
-
-    /* Semantic */
-    --cos-bg-deep:     var(--cos-slate-900);
-    --cos-bg-surface:  var(--cos-slate-800);
-    --cos-bg-card:     #FFFFFF;
-    --cos-bg-light:    var(--cos-slate-50);
-    --cos-accent:      var(--cos-blue-500);
-    --cos-accent-hover:var(--cos-blue-600);
-    --cos-highlight:   var(--cos-amber-500);
-    --cos-success:     var(--cos-green-500);
-    --cos-text-dark:   var(--cos-slate-900);
-    --cos-text-body:   var(--cos-slate-600);
-    --cos-text-muted:  var(--cos-slate-400);
-    --cos-text-light:  #FFFFFF;
-    --cos-border:      var(--cos-slate-200);
-    --cos-border-dark: rgba(255,255,255,0.08);
-    --cos-glow:        rgba(59,130,246,0.15);
-
-    /* Typography */
-    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    --font-mono: "SF Mono", Monaco, "Cascadia Code", Consolas, monospace;
-
-    /* Spacing (4px grid) */
-    --sp-1: 0.25rem; --sp-2: 0.5rem; --sp-3: 0.75rem; --sp-4: 1rem;
-    --sp-5: 1.25rem; --sp-6: 1.5rem; --sp-8: 2rem; --sp-10: 2.5rem;
-    --sp-12: 3rem; --sp-16: 4rem; --sp-20: 5rem; --sp-24: 6rem;
-
-    /* Radius */
-    --r-sm: 0.375rem; --r-md: 0.5rem; --r-lg: 0.75rem;
-    --r-xl: 1rem; --r-2xl: 1.5rem; --r-full: 9999px;
-
-    /* Shadows */
-    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
-    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
-    --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.05);
-    --shadow-glow: 0 0 40px var(--cos-glow);
-  }
-}
-
-/* ════════════════════════════════════════════════════
-   LAYOUT — Shared Primitives
-   ════════════════════════════════════════════════════ */
-@layer layout {
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: var(--font-sans);
-    color: var(--cos-text-dark);
-    background: #FFFFFF;
-    line-height: 1.6;
-  }
-
-  .container {
-    max-width: 1200px;
-    width: 100%;
-    margin: 0 auto;
-    padding-inline: var(--sp-6);
-  }
-
-  .container--narrow {
-    max-width: 800px;
-  }
-
-  .section {
-    padding-block: var(--sp-24);
-  }
-
-  .section-label {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--sp-2);
-    padding: var(--sp-1) var(--sp-4);
-    background: var(--cos-blue-50);
-    color: var(--cos-accent);
-    border-radius: var(--r-full);
-    font-size: 0.8125rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    margin-bottom: var(--sp-4);
-  }
-
-  .section-title {
-    font-size: 2.5rem;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    line-height: 1.15;
-    color: var(--cos-text-dark);
-    margin-bottom: var(--sp-4);
-  }
-
-  .section-subtitle {
-    font-size: 1.125rem;
-    color: var(--cos-text-body);
-    max-width: 640px;
-    line-height: 1.7;
-  }
-
-  .section-header {
-    text-align: center;
-    margin-bottom: var(--sp-16);
-  }
-
-  .section-header .section-subtitle {
-    margin-inline: auto;
-  }
-}
-
-/* ════════════════════════════════════════════════════
-   COMPONENTS
-   ════════════════════════════════════════════════════ */
-@layer components {
-  /* Buttons */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--sp-2);
-    padding: var(--sp-3) var(--sp-8);
-    border-radius: var(--r-md);
-    font-size: 1rem;
-    font-weight: 700;
-    min-height: 52px;
-    transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
-    border: 2px solid transparent;
-  }
-
-  .btn:focus-visible {
-    outline: 2px solid var(--cos-accent);
-    outline-offset: 2px;
-  }
-
-  .btn--primary {
-    background: var(--cos-accent);
-    color: #FFFFFF;
-    border-color: var(--cos-accent);
-    box-shadow: var(--shadow-glow);
-  }
-
-  .btn--primary:hover {
-    background: var(--cos-accent-hover);
-    border-color: var(--cos-accent-hover);
-    transform: translateY(-1px);
-    box-shadow: 0 0 60px rgba(59,130,246,0.25);
-  }
-
-  .btn--ghost {
-    background: transparent;
-    color: var(--cos-text-body);
-    border-color: var(--cos-border);
-  }
-
-  .btn--ghost:hover {
-    color: var(--cos-text-dark);
-    border-color: var(--cos-slate-300);
-    background: var(--cos-slate-50);
-  }
-
-  .btn--dark-ghost {
-    background: transparent;
-    color: var(--cos-text-muted);
-    border-color: var(--cos-border-dark);
-  }
-
-  .btn--dark-ghost:hover {
-    color: var(--cos-text-light);
-    border-color: rgba(255,255,255,0.2);
-    background: rgba(255,255,255,0.04);
-  }
-
-  .btn--large {
-    padding: var(--sp-4) var(--sp-10);
-    font-size: 1.125rem;
-    min-height: 56px;
-  }
-
-  /* Check / dash icons */
-  .icon-check {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: var(--cos-green-100);
-    color: var(--cos-green-500);
-    font-size: 0.75rem;
-    flex-shrink: 0;
-  }
-
-  .icon-dash {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: var(--cos-slate-100);
-    color: var(--cos-slate-400);
-    font-size: 0.75rem;
-    flex-shrink: 0;
-  }
-}
-
-/* ════════════════════════════════════════════════════
-   SECTIONS
-   ════════════════════════════════════════════════════ */
-@layer sections {
-
-  /* ─── 1. HERO (Dark) ─── */
-  .hero {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    background: var(--cos-bg-deep);
-    color: var(--cos-text-light);
-  }
-
-  .hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-    background-size: 64px 64px;
-    mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 20%, transparent 70%);
-    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 20%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .hero::after {
-    content: "";
-    position: absolute;
-    top: -200px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 800px;
-    height: 600px;
-    background: radial-gradient(ellipse, var(--cos-glow) 0%, transparent 60%);
-    pointer-events: none;
-  }
-
-  .hero-nav {
-    position: relative;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: 1200px;
-    width: 100%;
-    margin: 0 auto;
-    padding: var(--sp-5) var(--sp-6);
-  }
-
-  .hero-logo {
-    font-size: 1.125rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    display: flex;
-    align-items: center;
-    gap: var(--sp-2);
-  }
-
-  .hero-logo-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: var(--r-md);
-    background: var(--cos-accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.875rem;
-    font-weight: 800;
-  }
-
-  /* Endorsed brand badge — "by The Forge" */
-  .endorsement-badge {
-    font-size: 0.6875rem;
-    font-weight: 500;
-    color: var(--cos-text-muted);
-    letter-spacing: 0.02em;
-    margin-left: var(--sp-1);
-    padding-left: var(--sp-2);
-    border-left: 1px solid var(--cos-border-dark);
-  }
-
-  .endorsement-badge-light {
-    color: var(--cos-slate-400);
-    border-left-color: var(--cos-slate-600);
-  }
-
-  .endorsement-badge-dark {
-    color: var(--cos-slate-500);
-    border-left-color: var(--cos-slate-300);
-  }
-
-  /* Forge mark in hero — small anvil/wordmark above headline */
-  .forge-mark {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--sp-2);
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--cos-text-muted);
-    margin-bottom: var(--sp-4);
-  }
-
-  .forge-mark-icon {
-    width: 20px;
-    height: 20px;
-    border-radius: var(--r-sm);
-    background: linear-gradient(135deg, var(--cos-amber-500), var(--cos-amber-400));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.625rem;
-    color: var(--cos-slate-900);
-    font-weight: 900;
-  }
-
-  .hero-nav-links {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-8);
-  }
-
-  .hero-nav-links a {
-    color: var(--cos-text-muted);
-    font-size: 0.875rem;
-    font-weight: 500;
-    transition: color 0.15s ease;
-  }
-
-  .hero-nav-links a:hover { color: var(--cos-text-light); }
-
-  .nav-cta {
-    padding: var(--sp-2) var(--sp-5) !important;
-    background: var(--cos-accent);
-    color: #FFFFFF !important;
-    border-radius: var(--r-md);
-    font-weight: 600 !important;
-    transition: background 0.15s ease !important;
-  }
-
-  .nav-cta:hover { background: var(--cos-accent-hover) !important; }
-
-  .hero-content {
-    position: relative;
-    z-index: 5;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: var(--sp-16) var(--sp-6) var(--sp-20);
-  }
-
-  .hero-headline {
-    font-size: 3.75rem;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-    margin-bottom: var(--sp-6);
-  }
-
-  .hero-headline-accent {
-    background: linear-gradient(135deg, var(--cos-accent) 0%, var(--cos-blue-400) 50%, var(--cos-highlight) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .hero-sub {
-    font-size: 1.25rem;
-    font-weight: 400;
-    color: var(--cos-text-muted);
-    max-width: 640px;
-    line-height: 1.6;
-    margin-bottom: var(--sp-10);
-  }
-
-  .hero-ctas {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-4);
-    margin-bottom: var(--sp-6);
-  }
-
-  .hero-scroll {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--sp-2);
-    color: var(--cos-text-muted);
-    font-size: 0.875rem;
-    font-weight: 500;
-    transition: color 0.15s;
-  }
-
-  .hero-scroll:hover { color: var(--cos-text-light); }
-
-
-  /* ─── 2. SOCIAL PROOF BAR ─── */
-  .proof-bar {
-    background: var(--cos-bg-light);
-    border-top: 1px solid var(--cos-border);
-    border-bottom: 1px solid var(--cos-border);
-    padding-block: var(--sp-5);
-  }
-
-  .proof-bar-inner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--sp-6);
-    flex-wrap: wrap;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--cos-text-body);
-  }
-
-  .proof-bar-dot {
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: var(--cos-slate-300);
-    flex-shrink: 0;
-  }
-
-  .proof-bar-compat {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--sp-4);
-    margin-top: var(--sp-2);
-    font-size: 0.8125rem;
-    font-weight: 500;
-    color: var(--cos-text-muted);
-  }
-
-
-  /* ─── 3. VALUE STACK (Light) ─── */
-  .value-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--sp-6);
-  }
-
-  .value-card {
-    padding: var(--sp-8);
-    border-radius: var(--r-lg);
-    border: 1px solid var(--cos-border);
-    background: #FFFFFF;
-    transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
-  }
-
-  .value-card:hover {
-    box-shadow: var(--shadow-lg);
-    border-color: var(--cos-slate-300);
-    transform: translateY(-2px);
-  }
-
-  .value-card-icon {
-    font-size: 1.75rem;
-    margin-bottom: var(--sp-4);
-  }
-
-  .value-card-title {
-    font-size: 1.125rem;
-    font-weight: 700;
-    color: var(--cos-text-dark);
-    margin-bottom: var(--sp-1);
-  }
-
-  .value-card-count {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--cos-accent);
-    margin-bottom: var(--sp-3);
-  }
-
-  .value-card p {
-    font-size: 0.9375rem;
-    color: var(--cos-text-body);
-    line-height: 1.65;
-  }
-
-  .value-closer {
-    text-align: center;
-    margin-top: var(--sp-12);
-  }
-
-  .value-closer-headline {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--cos-text-dark);
-    margin-bottom: var(--sp-3);
-  }
-
-  .value-closer-files {
-    font-size: 0.875rem;
-    color: var(--cos-text-muted);
-    font-family: var(--font-mono);
-    line-height: 1.8;
-  }
-
-
-  /* ─── 4. HOW IT WORKS (Light, alternating bg) ─── */
-  .how-it-works {
-    background: var(--cos-bg-light);
-    border-top: 1px solid var(--cos-border);
-    border-bottom: 1px solid var(--cos-border);
-  }
-
-  .steps {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-16);
-  }
-
-  .step {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--sp-12);
-    align-items: center;
-  }
-
-  .step:nth-child(even) { direction: rtl; }
-  .step:nth-child(even) > * { direction: ltr; }
-
-  .step-number {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: var(--cos-accent);
-    color: #FFFFFF;
-    font-size: 0.875rem;
-    font-weight: 800;
-    margin-bottom: var(--sp-4);
-  }
-
-  .step-title {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--cos-text-dark);
-    margin-bottom: var(--sp-3);
-    letter-spacing: -0.02em;
-  }
-
-  .step-desc {
-    font-size: 1rem;
-    color: var(--cos-text-body);
-    line-height: 1.7;
-  }
-
-  .step-visual {
-    background: var(--cos-bg-deep);
-    border-radius: var(--r-xl);
-    padding: var(--sp-8);
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
-    color: var(--cos-text-muted);
-    line-height: 1.8;
-    box-shadow: var(--shadow-lg);
-    border: 1px solid var(--cos-border-dark);
-    overflow: hidden;
-  }
-
-  .step-visual .code-comment { color: var(--cos-slate-500); }
-  .step-visual .code-key { color: var(--cos-blue-400); }
-  .step-visual .code-value { color: var(--cos-green-400); }
-  .step-visual .code-string { color: var(--cos-amber-400); }
-
-  .step-note {
-    margin-top: var(--sp-6);
-    padding: var(--sp-4) var(--sp-6);
-    background: var(--cos-blue-50);
-    border-radius: var(--r-md);
-    border-left: 3px solid var(--cos-accent);
-    font-size: 0.9375rem;
-    color: var(--cos-text-body);
-    font-weight: 600;
-    line-height: 1.5;
-  }
-
-
-  /* ─── 5. COMPARISON (Light) ─── */
-  .comparison-table {
-    max-width: 800px;
-    margin: 0 auto;
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    border-radius: var(--r-lg);
-    overflow: hidden;
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--cos-border);
-  }
-
-  .comparison-table thead th {
-    padding: var(--sp-4) var(--sp-6);
-    font-size: 0.8125rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .comparison-table thead th:first-child {
-    background: var(--cos-slate-100);
-    color: var(--cos-text-muted);
-    text-align: left;
-  }
-
-  .comparison-table thead th:last-child {
-    background: var(--cos-blue-50);
-    color: var(--cos-accent);
-    text-align: left;
-  }
-
-  .comparison-table td {
-    padding: var(--sp-4) var(--sp-6);
-    font-size: 0.9375rem;
-    line-height: 1.5;
-    border-top: 1px solid var(--cos-border);
-    vertical-align: top;
-  }
-
-  .comparison-table td:first-child {
-    color: var(--cos-text-muted);
-    background: var(--cos-slate-50);
-  }
-
-  .comparison-table td:last-child {
-    color: var(--cos-text-dark);
-    font-weight: 500;
-    background: #FFFFFF;
-  }
-
-
-  /* ─── 6. PRICING (Light) ─── */
-  .pricing-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--sp-6);
-    align-items: start;
-    max-width: 780px;
-    margin: 0 auto;
-  }
-
-  .pricing-card {
-    background: #FFFFFF;
-    border: 2px solid var(--cos-border);
-    border-radius: var(--r-xl);
-    padding: var(--sp-8);
-    display: flex;
-    flex-direction: column;
-    transition: box-shadow 0.2s ease;
-  }
-
-  .pricing-card:hover {
-    box-shadow: var(--shadow-lg);
-  }
-
-  .pricing-card--featured {
-    border-color: var(--cos-highlight);
-    position: relative;
-    box-shadow: 0 0 0 1px var(--cos-highlight), var(--shadow-lg);
-  }
-
-  .pricing-popular {
-    position: absolute;
-    top: -14px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: var(--sp-1) var(--sp-5);
-    background: var(--cos-highlight);
-    color: #FFFFFF;
-    border-radius: var(--r-full);
-    font-size: 0.75rem;
-    font-weight: 700;
-    white-space: nowrap;
-  }
-
-  .pricing-tier {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--cos-text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: var(--sp-2);
-  }
-
-  .pricing-price {
-    font-size: 3rem;
-    font-weight: 800;
-    color: var(--cos-text-dark);
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-  }
-
-  .pricing-desc {
-    font-size: 0.875rem;
-    color: var(--cos-text-body);
-    margin-top: var(--sp-2);
-    margin-bottom: var(--sp-6);
-    line-height: 1.6;
-  }
-
-  .pricing-features {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-3);
-    margin-bottom: var(--sp-8);
-    flex: 1;
-  }
-
-  .pricing-feature {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--sp-3);
-    font-size: 0.875rem;
-    color: var(--cos-text-body);
-    line-height: 1.5;
-  }
-
-  .pricing-addons {
-    text-align: center;
-    margin-top: var(--sp-8);
-    padding: var(--sp-6);
-    background: var(--cos-slate-50);
-    border-radius: var(--r-lg);
-    border: 1px solid var(--cos-border);
-    max-width: 780px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .pricing-addons-title {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--cos-text-dark);
-    margin-bottom: var(--sp-3);
-  }
-
-  .pricing-addons-list {
-    font-size: 0.875rem;
-    color: var(--cos-text-body);
-    line-height: 1.8;
-  }
-
-  .pricing-upgrade {
-    text-align: center;
-    margin-top: var(--sp-4);
-    font-size: 0.875rem;
-    color: var(--cos-text-muted);
-  }
-
-  .pricing-upgrade a {
-    color: var(--cos-accent);
-    text-decoration: underline;
-    font-weight: 500;
-  }
-
-  .pricing-upgrade a:hover {
-    color: var(--cos-accent-hover);
-  }
-
-  /* Guarantee Badge — Prominent visual on pricing cards */
-  .guarantee-badge {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--sp-2);
-    margin-top: var(--sp-4);
-    padding: var(--sp-3) var(--sp-4);
-    background: var(--cos-green-100);
-    border: 1px solid var(--cos-green-400);
-    border-radius: var(--r-lg);
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: #065F46;
-    line-height: 1.4;
-  }
-  .guarantee-badge svg {
-    flex-shrink: 0;
-    width: 20px;
-    height: 20px;
-  }
-
-  /* Starter Kit CTA — "Try Free" in What's Inside section */
-  .starter-cta {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--sp-3);
-    margin-top: var(--sp-8);
-    padding: var(--sp-6) var(--sp-8);
-    background: var(--cos-blue-50);
-    border: 2px dashed var(--cos-blue-400);
-    border-radius: var(--r-xl);
-    text-align: center;
-  }
-  .starter-cta-headline {
-    font-size: 1.125rem;
-    font-weight: 700;
-    color: var(--cos-text-dark);
-    line-height: 1.3;
-  }
-  .starter-cta-desc {
-    font-size: 0.875rem;
-    color: var(--cos-text-body);
-    line-height: 1.5;
-    max-width: 440px;
-  }
-  .starter-cta .btn {
-    margin-top: var(--sp-2);
-  }
-
-
-  /* ─── 7. DEMO / PREVIEW (Dark) ─── */
-  .demo {
-    background: var(--cos-bg-deep);
-    color: var(--cos-text-light);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .demo::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-    background-size: 48px 48px;
-    pointer-events: none;
-  }
-
-  .demo .container { position: relative; z-index: 2; }
-
-  .demo .section-label {
-    background: rgba(59,130,246,0.15);
-    color: var(--cos-blue-400);
-  }
-
-  .demo .section-title { color: var(--cos-text-light); }
-  .demo .section-subtitle { color: var(--cos-text-muted); }
-
-  .demo-preview {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--sp-8);
-    margin-top: var(--sp-8);
-  }
-
-  .demo-file {
-    background: var(--cos-bg-surface);
-    border: 1px solid var(--cos-border-dark);
-    border-radius: var(--r-xl);
-    overflow: hidden;
-  }
-
-  .demo-file-header {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-2);
-    padding: var(--sp-3) var(--sp-5);
-    background: rgba(0,0,0,0.2);
-    border-bottom: 1px solid var(--cos-border-dark);
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--cos-text-muted);
-  }
-
-  .demo-file-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .demo-file-body {
-    padding: var(--sp-6);
-    font-size: 0.8125rem;
-    line-height: 1.8;
-    color: var(--cos-slate-300);
-  }
-
-  .demo-file-body h4 {
-    font-size: 0.9375rem;
-    font-weight: 700;
-    color: var(--cos-text-light);
-    margin-bottom: var(--sp-3);
-  }
-
-  .demo-file-body p {
-    margin-bottom: var(--sp-3);
-  }
-
-  .demo-file-body .field-label {
-    color: var(--cos-blue-400);
-    font-weight: 600;
-  }
-
-  .demo-file-body .field-value {
-    color: var(--cos-slate-300);
-  }
-
-  .demo-closer {
-    text-align: center;
-    margin-top: var(--sp-12);
-  }
-
-  .demo-closer p {
-    color: var(--cos-text-muted);
-    font-size: 0.9375rem;
-    margin-bottom: var(--sp-6);
-  }
-
-
-  /* ─── 8. FAQ (Light) ─── */
-  .faq-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-4);
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  .faq-item {
-    border: 1px solid var(--cos-border);
-    border-radius: var(--r-lg);
-    background: #FFFFFF;
-    overflow: hidden;
-  }
-
-  .faq-question {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--sp-5) var(--sp-6);
-    text-align: left;
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--cos-text-dark);
-    background: transparent;
-    transition: background 0.15s ease;
-    cursor: pointer;
-    min-height: 44px;
-  }
-
-  .faq-question:hover { background: var(--cos-slate-50); }
-
-  .faq-question:focus-visible {
-    outline: 2px solid var(--cos-accent);
-    outline-offset: -2px;
-  }
-
-  .faq-arrow {
-    transition: transform 0.2s ease;
-    color: var(--cos-text-muted);
-    flex-shrink: 0;
-  }
-
-  .faq-item[open] .faq-arrow {
-    transform: rotate(180deg);
-  }
-
-  .faq-answer {
-    padding: 0 var(--sp-6) var(--sp-5);
-    font-size: 0.9375rem;
-    color: var(--cos-text-body);
-    line-height: 1.7;
-  }
-
-
-  /* ─── 9. FINAL CTA (Dark) ─── */
-  .final-cta {
-    background: var(--cos-bg-deep);
-    color: var(--cos-text-light);
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .final-cta::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-    background-size: 48px 48px;
-    pointer-events: none;
-  }
-
-  .final-cta .container { position: relative; z-index: 2; }
-
-  .final-cta-title {
-    font-size: 2.5rem;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    margin-bottom: var(--sp-4);
-  }
-
-  .final-cta-sub {
-    font-size: 1.125rem;
-    color: var(--cos-text-muted);
-    max-width: 560px;
-    margin: 0 auto var(--sp-10);
-    line-height: 1.7;
-  }
-
-  .final-cta-buttons {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--sp-4);
-  }
-
-  .final-cta-note {
-    margin-top: var(--sp-6);
-    font-size: 0.8125rem;
-    color: var(--cos-slate-500);
-  }
-
-
-  /* ─── 10. FOOTER (Dark) ─── */
-  .footer {
-    background: var(--cos-bg-deep);
-    border-top: 1px solid var(--cos-border-dark);
-    color: var(--cos-text-muted);
-    padding-block: var(--sp-12);
-  }
-
-  .footer-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: var(--sp-12);
-  }
-
-  .footer-brand-name {
-    font-size: 1rem;
-    font-weight: 800;
-    color: var(--cos-text-light);
-    margin-bottom: var(--sp-3);
-    display: flex;
-    align-items: center;
-    gap: var(--sp-2);
-  }
-
-  .footer-brand-desc {
-    font-size: 0.8125rem;
-    color: var(--cos-slate-500);
-    line-height: 1.6;
-    max-width: 280px;
-  }
-
-  .footer-col-title {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--cos-text-light);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: var(--sp-4);
-  }
-
-  .footer-links {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-3);
-  }
-
-  .footer-links a {
-    font-size: 0.8125rem;
-    color: var(--cos-slate-500);
-    transition: color 0.15s;
-  }
-
-  .footer-links a:hover { color: var(--cos-text-light); }
-
-  .footer-bottom {
-    margin-top: var(--sp-12);
-    padding-top: var(--sp-6);
-    border-top: 1px solid var(--cos-border-dark);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 0.75rem;
-    color: var(--cos-slate-600);
-  }
-}
-
-/* ════════════════════════════════════════════════════
-   ANIMATIONS
-   ════════════════════════════════════════════════════ */
-@layer animations {
-  @keyframes pulse-dot {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
-  @keyframes fade-in-up {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .forge-mark { animation: fade-in-up 0.6s ease-out 0s both; }
-  .hero-headline { animation: fade-in-up 0.6s ease-out 0.1s both; }
-  .hero-sub { animation: fade-in-up 0.6s ease-out 0.2s both; }
-  .hero-ctas { animation: fade-in-up 0.6s ease-out 0.3s both; }
-  .hero-scroll { animation: fade-in-up 0.6s ease-out 0.4s both; }
-}
-
-/* ════════════════════════════════════════════════════
-   RESPONSIVE
-   ════════════════════════════════════════════════════ */
-@layer responsive {
-  @media (max-width: 1024px) {
-    .value-grid { grid-template-columns: repeat(2, 1fr); }
-    .footer-grid { grid-template-columns: 1fr 1fr; gap: var(--sp-8); }
-    .demo-preview { grid-template-columns: 1fr; }
-  }
-
-  @media (max-width: 768px) {
-    .section { padding-block: var(--sp-16); }
-    .section-title { font-size: 2rem; }
-    .hero-headline { font-size: 2.5rem; }
-    .hero-sub { font-size: 1.0625rem; }
-    .hero-ctas { flex-direction: column; width: 100%; }
-    .hero-ctas .btn { width: 100%; }
-    .hero-nav-links { display: none; }
-    .endorsement-badge { font-size: 0.5625rem; padding-left: var(--sp-1); }
-    .forge-mark { font-size: 0.6875rem; }
-    .proof-bar-inner { gap: var(--sp-3); font-size: 0.8125rem; }
-    .value-grid { grid-template-columns: 1fr; }
-    .step { grid-template-columns: 1fr; gap: var(--sp-6); }
-    .step:nth-child(even) { direction: ltr; }
-    .step-visual { margin-top: var(--sp-4); }
-    .comparison-table { font-size: 0.875rem; }
-    .comparison-table td,
-    .comparison-table thead th { padding: var(--sp-3) var(--sp-4); }
-    .pricing-grid { grid-template-columns: 1fr; max-width: 100%; }
-    .starter-cta { padding: var(--sp-5) var(--sp-4); }
-    .guarantee-badge { font-size: 0.75rem; padding: var(--sp-2) var(--sp-3); }
-    .demo-preview { grid-template-columns: 1fr; }
-    .final-cta-title { font-size: 2rem; }
-    .final-cta-buttons { flex-direction: column; width: 100%; }
-    .final-cta-buttons .btn { width: 100%; }
-    .footer-grid { grid-template-columns: 1fr; gap: var(--sp-8); }
-    .footer-bottom { flex-direction: column; gap: var(--sp-3); text-align: center; }
-  }
-
-  @media (max-width: 480px) {
-    .hero-headline { font-size: 2rem; }
-    .hero-content { padding: var(--sp-10) var(--sp-4) var(--sp-12); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .forge-mark, .hero-headline, .hero-sub, .hero-ctas, .hero-scroll { animation: none; }
-    .value-card, .pricing-card { transition: none; }
-  }
-
-  /* High contrast */
-  @media (forced-colors: active) {
-    .btn { border: 2px solid ButtonText; }
-    .pricing-card--featured { border: 3px solid Highlight; }
-    .icon-check, .icon-dash { background: Canvas; border: 1px solid ButtonText; }
-  }
-
-  /* Performance: skip layout/paint for below-fold sections */
-  #whats-inside,
-  #how-it-works,
-  #comparison,
-  #demo,
-  #faq,
-  .final-cta,
-  .footer {
-    content-visibility: auto;
-    contain-intrinsic-size: auto 600px;
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CorporateOS — The Operating System Your AI Agents Actually Run</title>
+  <meta name="description" content="Not templates. Not prompts. A complete operating system your AI agents execute. Decision frameworks, financial workflows, security protocols — drop it in and your agents know what to do.">
+  <meta property="og:title" content="CorporateOS — Your AI Agents Need an Operating System">
+  <meta property="og:description" content="Drop it in. Your agents know what to do. Decision frameworks they execute, not templates they reference.">
+  <meta property="og:type" content="website">
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --surface: #141414;
+      --border: #262626;
+      --text: #e5e5e5;
+      --text-muted: #a3a3a3;
+      --accent: #22c55e;
+      --accent-hover: #16a34a;
+      --accent-bg: rgba(34, 197, 94, 0.08);
+      --mono: 'SF Mono', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* NAV */
+    .topbar {
+      border-bottom: 1px solid var(--border);
+      padding: 16px 0;
+    }
+    .topbar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .topbar-logo {
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .topbar-badge {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+      background: var(--accent-bg);
+      padding: 4px 10px;
+      border-radius: 3px;
+      border: 1px solid rgba(34, 197, 94, 0.2);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* HERO */
+    .hero {
+      padding: 80px 0 48px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero p {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin: 0 auto 36px;
+      line-height: 1.7;
+    }
+
+    /* EMAIL FORM */
+    .email-capture {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 32px;
+      margin-bottom: 48px;
+    }
+    .email-capture h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+    .email-capture .subtext {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .email-form {
+      display: flex;
+      gap: 8px;
+    }
+    .email-form input[type="email"] {
+      flex: 1;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 12px 16px;
+      border-radius: 4px;
+      font-size: 15px;
+      font-family: var(--sans);
+    }
+    .email-form input[type="email"]:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .email-form button {
+      background: var(--accent);
+      color: #000;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .email-form button:hover { background: var(--accent-hover); }
+    .privacy-note {
+      margin-top: 12px;
+      font-size: 12px;
+      color: #525252;
+    }
+
+    /* WHAT YOU GET */
+    .features {
+      padding: 0 0 48px;
+    }
+    .features h2 {
+      font-size: 22px;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 20px;
+    }
+    .feature-card h4 {
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: var(--accent);
+      font-family: var(--mono);
+    }
+    .feature-card p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* PRICING PREVIEW */
+    .pricing-preview {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 32px;
+      margin-bottom: 48px;
+      text-align: center;
+    }
+    .pricing-preview h3 {
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+    .price-row {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-bottom: 16px;
+    }
+    .price-item {
+      text-align: center;
+    }
+    .price-item .amount {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--accent);
+      font-family: var(--mono);
+    }
+    .price-item .label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .pricing-note {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* PROOF */
+    .proof {
+      padding: 0 0 48px;
+    }
+    .proof h2 {
+      font-size: 22px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .proof-list {
+      list-style: none;
+    }
+    .proof-list li {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .proof-list li::before {
+      content: "✓";
+      color: var(--accent);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* FINAL CTA */
+    .final-cta {
+      text-align: center;
+      padding: 48px 0 80px;
+      border-top: 1px solid var(--border);
+    }
+    .final-cta h2 {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+    .final-cta p {
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      font-size: 15px;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 0;
+      text-align: center;
+      font-size: 12px;
+      color: #525252;
+    }
+
+    /* SUCCESS STATE */
+    .success-message {
+      display: none;
+      text-align: center;
+      padding: 20px;
+    }
+    .success-message h4 {
+      color: var(--accent);
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+    .success-message p {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 28px; }
+      .hero { padding: 48px 0 32px; }
+      .email-form { flex-direction: column; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .price-row { flex-direction: column; gap: 16px; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════════
-     1. HERO — Above the fold
-     Palmer: Problem → Promise → CTA in 5 seconds
-     Ellis: Headline Option A (Recommended)
-     ═══════════════════════════════════════════════════ -->
-<section class="hero" id="top">
-  <nav class="hero-nav" aria-label="Main navigation">
-    <div class="hero-logo">
-      <div class="hero-logo-icon" aria-hidden="true">C</div>
-      CorporateOS
-      <span class="endorsement-badge endorsement-badge-light">by The Forge</span>
+  <!-- NAV -->
+  <nav class="topbar">
+    <div class="container">
+      <span class="topbar-logo">CorporateOS</span>
+      <span class="topbar-badge">Launching Soon</span>
     </div>
-    <ul class="hero-nav-links">
-      <li><a href="#whats-inside">What's Inside</a></li>
-      <li><a href="#pricing">Pricing</a></li>
-      <li><a href="#faq">FAQ</a></li>
-      <li><a href="#pricing" class="nav-cta">Get Started</a></li>
-    </ul>
   </nav>
 
-  <div class="hero-content">
-    <div class="forge-mark" aria-label="A product by The Forge">
-      <div class="forge-mark-icon" aria-hidden="true">⚒</div>
-      A product by The Forge
-    </div>
-    <h1 class="hero-headline">
-      Run your company like a company.<br>
-      <span class="hero-headline-accent">Starting today.</span>
-    </h1>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <h1>Your AI Agents Need an <span>Operating System</span></h1>
+      <p>Not templates. Not prompts. A complete operating system your AI agents actually execute. Decision frameworks, financial workflows, security protocols — drop it in and your agents know what to do.</p>
 
-    <p class="hero-sub">
-      Every SOP, charter, and governance doc a growing company needs — in plain markdown your team and AI agents read on Day 1.
-    </p>
-
-    <div class="hero-ctas">
-      <a href="#pricing" class="btn btn--primary btn--large">Get CorporateOS — $49</a>
-      <a href="#pricing" class="btn btn--dark-ghost btn--large">Get Everything — $129</a>
-    </div>
-
-    <a href="#whats-inside" class="hero-scroll">See what's inside ↓</a>
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════
-     2. SOCIAL PROOF BAR — One line, specificity as proof
-     Ellis: 80+ files · 14 charters · 29 SOPs · Built by operators
-     ═══════════════════════════════════════════════════ -->
-<div class="proof-bar">
-  <div class="container">
-    <div class="proof-bar-inner">
-      <span>80+ production-ready files</span>
-      <span class="proof-bar-dot" aria-hidden="true"></span>
-      <span>14 executive charters</span>
-      <span class="proof-bar-dot" aria-hidden="true"></span>
-      <span>29 SOPs</span>
-      <span class="proof-bar-dot" aria-hidden="true"></span>
-      <span>Built by operators, not consultants</span>
-    </div>
-    <div class="proof-bar-compat">
-      Markdown-native. Works with VS Code, Obsidian, GitHub, and any text editor.
-    </div>
-  </div>
-</div>
-
-
-<!-- ═══════════════════════════════════════════════════
-     3. WHAT'S INSIDE — Value Stack (6 cards)
-     Ellis: Category cards with file counts + closer
-     ═══════════════════════════════════════════════════ -->
-<section class="section" id="whats-inside">
-  <div class="container">
-    <div class="section-header">
-      <span class="section-label">What's Inside</span>
-      <h2 class="section-title">What you get.</h2>
-    </div>
-
-    <div class="value-grid">
-      <div class="value-card">
-        <div class="value-card-icon" aria-hidden="true">📋</div>
-        <div class="value-card-title">Governance & Structure</div>
-        <div class="value-card-count">12 files</div>
-        <p>Org chart, decision rights, RACI matrix, role boundaries. Know who owns what before the argument starts.</p>
+      <!-- PRIMARY EMAIL CAPTURE -->
+      <div class="email-capture" id="hero-capture">
+        <h3>Join the waitlist — get 5 free SOPs immediately</h3>
+        <p class="subtext">Be first to know when CorporateOS launches. Plus, get our "5 SOPs Every Solo Founder Needs" guide free.</p>
+        <form class="email-form" id="waitlist-form" action="https://formsubmit.co/YOUR_EMAIL_HASH" method="POST">
+          <!-- FormSubmit config -->
+          <input type="hidden" name="_subject" value="New CorporateOS Waitlist Signup">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_autoresponse" value="Thanks for joining the CorporateOS waitlist! You're on the list. We'll email you the moment CorporateOS launches, plus your free '5 SOPs Every Solo Founder Needs' guide is coming shortly.">
+          <input type="hidden" name="_next" value="">
+          <input type="text" name="_honey" style="display:none">
+          <input type="email" name="email" placeholder="your@email.com" required>
+          <button type="submit">Join Waitlist</button>
+        </form>
+        <p class="privacy-note">No spam. Unsubscribe anytime. We'll email you when we launch + send the free SOPs guide.</p>
       </div>
 
-      <div class="value-card">
-        <div class="value-card-icon" aria-hidden="true">📊</div>
-        <div class="value-card-title">Finance</div>
-        <div class="value-card-count">10 files</div>
-        <p>Budget tracking, unit economics, fundraising prep, vendor management. Real templates, not theory.</p>
-      </div>
-
-      <div class="value-card">
-        <div class="value-card-icon" aria-hidden="true">🔒</div>
-        <div class="value-card-title">Security & Compliance</div>
-        <div class="value-card-count">9 files</div>
-        <p>Incident response, access control, data classification, security policies. The SOPs your auditor will ask for.</p>
-      </div>
-
-      <div class="value-card">
-        <div class="value-card-icon" aria-hidden="true">📝</div>
-        <div class="value-card-title">Standard Operating Procedures</div>
-        <div class="value-card-count">29 files</div>
-        <p>Hiring, onboarding, offboarding, vendor reviews, meeting cadence, escalation paths. Every process that breaks when undocumented.</p>
-      </div>
-
-      <div class="value-card">
-        <div class="value-card-icon" aria-hidden="true">🎯</div>
-        <div class="value-card-title">Executive Charters</div>
-        <div class="value-card-count">14 files</div>
-        <p>CEO, CTO, CMO, CPO, CFO, and 9 more — each with scope, KPIs, decision authority, and coordination rules. No guessing who does what.</p>
-      </div>
-
-      <div class="value-card">
-        <div class="value-card-icon" aria-hidden="true">✍️</div>
-        <div class="value-card-title">Brand & Content</div>
-        <div class="value-card-count">11 files</div>
-        <p>Voice guides, writing standards, editorial QA, content SOPs. Ship consistent messaging from day one.</p>
+      <!-- SUCCESS STATE -->
+      <div class="success-message" id="success-state">
+        <h4>You're on the list ✓</h4>
+        <p>Check your email for the free "5 SOPs Every Solo Founder Needs" guide. We'll notify you the moment CorporateOS launches.</p>
       </div>
     </div>
+  </section>
 
-    <div class="value-closer">
-      <p class="value-closer-headline">80+ files. Copy them into your repo. Done.</p>
-      <p class="value-closer-files">
-        <code>BUDGET_TRACKING.md</code> · <code>INCIDENT_RESPONSE_SOP.md</code> · <code>CPO_CHARTER.md</code> · <code>HIRING_SOP.md</code> · <code>DECISION_LOG_TEMPLATE.md</code>
-      </p>
-    </div>
-
-    <!-- Starter Kit Free CTA — Palmer conversion fix -->
-    <div class="starter-cta">
-      <div class="starter-cta-headline">Not sure yet? Try 5 files free.</div>
-      <p class="starter-cta-desc">Get a Starter Kit with a real SOP, executive charter, template, setup guide, and architecture overview — free, no credit card.</p>
-      <a href="#" class="btn btn--primary">Download Free Starter Kit →</a>
-    </div>
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════
-     4. HOW IT WORKS — 3 Steps
-     Ellis: Download, Customize, Run + "No accounts" note
-     ═══════════════════════════════════════════════════ -->
-<section class="section how-it-works" id="how-it-works">
-  <div class="container">
-    <div class="section-header">
-      <span class="section-label">How It Works</span>
-      <h2 class="section-title">Three steps. No accounts.</h2>
-    </div>
-
-    <div class="steps">
-      <!-- Step 1 -->
-      <div class="step">
-        <div>
-          <div class="step-number">1</div>
-          <h3 class="step-title">Download</h3>
-          <p class="step-desc">
-            One ZIP file. Unzip it. You're looking at your new operating system.
-          </p>
+  <!-- WHAT YOUR AGENTS DO WITH CORPORATEOS -->
+  <section class="features">
+    <div class="container">
+      <h2>What Your Agents Do With CorporateOS</h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h4>05_SOP/</h4>
+          <p>Your agents evaluate vendors, run hiring workflows, and make decisions within boundaries you set. Automatically.</p>
         </div>
-        <div class="step-visual" aria-label="File structure example">
-          <span class="code-comment">corporate_os/</span><br>
-          ├── <span class="code-key">01_GOVERNANCE/</span><br>
-          │&nbsp;&nbsp; ├── ORG_CHART.md<br>
-          │&nbsp;&nbsp; ├── DECISION_FRAMEWORK.md<br>
-          │&nbsp;&nbsp; └── RACI_MATRIX.md<br>
-          ├── <span class="code-key">02_CHARTERS/</span><br>
-          │&nbsp;&nbsp; ├── CEO_CHARTER.md<br>
-          │&nbsp;&nbsp; ├── CTO_CHARTER.md<br>
-          │&nbsp;&nbsp; └── <span class="code-string">... 12 more roles</span><br>
-          ├── <span class="code-key">03_SOPS/</span><br>
-          │&nbsp;&nbsp; └── <span class="code-string">29 procedures</span><br>
-          ├── <span class="code-key">04_FINANCE/</span><br>
-          │&nbsp;&nbsp; └── <span class="code-string">10 templates</span><br>
-          └── <span class="code-key">05_SECURITY/</span><br>
-          &nbsp;&nbsp;&nbsp; └── <span class="code-string">9 policies</span>
+        <div class="feature-card">
+          <h4>06_TEMPLATES/</h4>
+          <p>Board reports, project briefs, RFP responses — your agents generate them from structure, not blank pages.</p>
+        </div>
+        <div class="feature-card">
+          <h4>04_FINANCE/</h4>
+          <p>Your agents work within financial guardrails, categorize expenses, and generate reports. You review — they execute.</p>
+        </div>
+        <div class="feature-card">
+          <h4>08_SECURITY/</h4>
+          <p>Your agents enforce access control, log security events, and follow incident response protocols. Protection that runs itself.</p>
+        </div>
+        <div class="feature-card">
+          <h4>03_GOALS/</h4>
+          <p>OKR frameworks your agents measure against. They track milestones and flag when you're off-pace — without you checking.</p>
+        </div>
+        <div class="feature-card">
+          <h4>09_STATE/</h4>
+          <p>Your agents know what's happening across the business. System state, operational snapshots — no one has to brief them.</p>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- Step 2 -->
-      <div class="step">
-        <div>
-          <div class="step-number">2</div>
-          <h3 class="step-title">Customize</h3>
-          <p class="step-desc">
-            It's markdown. Open any file in any text editor. Change the company name, adjust the SOPs, delete what you don't need.
-          </p>
-        </div>
-        <div class="step-visual" aria-label="Editing example">
-          <span class="code-comment"># HIRING_SOP.md</span><br><br>
-          <span class="code-key">Company:</span> <span class="code-string">"Your Company Name"</span><br>
-          <span class="code-key">Approval chain:</span><br>
-          &nbsp; - Hiring manager opens role<br>
-          &nbsp; - Department head approves<br>
-          &nbsp; - Finance confirms budget<br><br>
-          <span class="code-key">Interview process:</span><br>
-          &nbsp; 1. Resume screen <span class="code-comment">(30 min)</span><br>
-          &nbsp; 2. Technical assessment<br>
-          &nbsp; 3. Culture fit <span class="code-comment">(45 min)</span><br>
-          &nbsp; 4. Offer or decline within 48 hours<br><br>
-          <span class="code-comment">// Edit anything. It's your file.</span>
-        </div>
-      </div>
-
-      <!-- Step 3 -->
-      <div class="step">
-        <div>
-          <div class="step-number">3</div>
-          <h3 class="step-title">Run</h3>
-          <p class="step-desc">
-            Your AI agents can read every file. Your team can read every file. Everyone operates from the same playbook.
-          </p>
-          <div class="step-note">
-            No accounts. No subscriptions. No vendor lock-in. Your files, on your machine, forever.
+  <!-- PRICING PREVIEW -->
+  <section>
+    <div class="container">
+      <div class="pricing-preview">
+        <h3>One Purchase. Your Agents Run It Forever.</h3>
+        <div class="price-row">
+          <div class="price-item">
+            <div class="amount">$49</div>
+            <div class="label">Core — 80+ operational files</div>
+          </div>
+          <div class="price-item">
+            <div class="amount">$129</div>
+            <div class="label">Full — Everything + add-ons</div>
           </div>
         </div>
-        <div class="step-visual" aria-label="AI reading files example">
-          <span class="code-comment"># Agent prompt</span><br><br>
-          <span class="code-value">&gt;</span> Read <span class="code-string">corporate_os/</span> and operate<br>
-          &nbsp;&nbsp;according to the SOPs and charters.<br><br>
-          <span class="code-comment"># Agent response</span><br><br>
-          <span class="code-value">✓</span> Loaded org chart — 14 roles defined<br>
-          <span class="code-value">✓</span> Loaded hiring SOP — process clear<br>
-          <span class="code-value">✓</span> Loaded decision framework<br>
-          <span class="code-value">✓</span> Loaded security policies<br>
-          <span class="code-value">✓</span> Ready. I know who owns what,<br>
-          &nbsp;&nbsp;how to escalate, and where the<br>
-          &nbsp;&nbsp;guardrails are.
-        </div>
+        <p class="pricing-note">Yours forever. 30-day money-back guarantee.</p>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-
-<!-- ═══════════════════════════════════════════════════
-     5. THE COMPARISON — Before / After
-     Ellis: Capability contrast, not price anchoring
-     ═══════════════════════════════════════════════════ -->
-<section class="section" id="comparison">
-  <div class="container">
-    <div class="section-header">
-      <span class="section-label">The Difference</span>
-      <h2 class="section-title">What changes.</h2>
+  <!-- WHY THIS EXISTS -->
+  <section class="proof">
+    <div class="container">
+      <h2>Why CorporateOS Exists</h2>
+      <ul class="proof-list">
+        <li>Your AI agents can't execute from Notion. They can't follow processes in Google Docs. CorporateOS gives them operational rules in the only format they read natively — markdown.</li>
+        <li>This isn't a template pack you customize. It's an operating system your agents run. Every file exists because something broke without it.</li>
+        <li>Drop it into any git repo. In 15 minutes, your agents make decisions, follow processes, and stay within boundaries — automatically.</li>
+        <li>Built by a team that runs a real company with AI executives. This is our actual operating system. We ship with it daily.</li>
+        <li>You could build this yourself. It took us 6 months and dozens of operational failures to get agents that reliably run business operations. $49 buys you the system that works.</li>
+      </ul>
     </div>
+  </section>
 
-    <table class="comparison-table" role="table">
-      <thead>
-        <tr>
-          <th scope="col">Without CorporateOS</th>
-          <th scope="col">With CorporateOS</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Scattered Google Docs no one reads</td>
-          <td>One directory, one structure, one truth</td>
-        </tr>
-        <tr>
-          <td>SOPs exist in someone's head</td>
-          <td>SOPs exist in files your AI agents parse</td>
-        </tr>
-        <tr>
-          <td>Every AI agent starts from scratch</td>
-          <td>Every AI agent reads your org chart at boot</td>
-        </tr>
-        <tr>
-          <td>You're the bottleneck for every decision</td>
-          <td>Decision rights are documented — work happens without you</td>
-        </tr>
-        <tr>
-          <td>New hires ask "how do we do this?" for months</td>
-          <td>New hires read the SOP and start</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════
-     6. PRICING — Two tiers, Ellis copy
-     Canonical: Core $49, Full Bundle $129
-     ═══════════════════════════════════════════════════ -->
-<section class="section" id="pricing">
-  <div class="container">
-    <div class="section-header">
-      <span class="section-label">Pricing</span>
-      <h2 class="section-title">Simple pricing. No subscriptions.</h2>
+  <!-- FINAL CTA -->
+  <section class="final-cta">
+    <div class="container">
+      <h2>Be First to Know</h2>
+      <p>We're launching soon. Join the waitlist and get 5 free SOPs your agents can use today.</p>
+      <form class="email-form" action="https://formsubmit.co/YOUR_EMAIL_HASH" method="POST" style="max-width:480px;margin:0 auto;">
+        <input type="hidden" name="_subject" value="New CorporateOS Waitlist Signup (Footer)">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_autoresponse" value="Thanks for joining the CorporateOS waitlist! Your free '5 SOPs Every Solo Founder Needs' guide is coming shortly.">
+        <input type="text" name="_honey" style="display:none">
+        <input type="email" name="email" placeholder="your@email.com" required>
+        <button type="submit">Join Waitlist</button>
+      </form>
+      <p class="privacy-note" style="margin-top:12px;">No spam. Free SOPs guide on signup. Launch notification when we're live.</p>
     </div>
+  </section>
 
-    <div class="pricing-grid">
-      <!-- CorporateOS Core -->
-      <div class="pricing-card">
-        <span class="pricing-popular" style="background:var(--cos-accent);">Most Popular</span>
-        <div class="pricing-tier">CorporateOS Core</div>
-        <div class="pricing-price">$49</div>
-        <p class="pricing-desc">Everything a growing company needs to operate.</p>
-        <div class="pricing-features">
-          <div class="pricing-feature"><span class="icon-check" aria-hidden="true">✓</span> 80+ production-ready markdown files</div>
-          <div class="pricing-feature"><span class="icon-check" aria-hidden="true">✓</span> 14 executive charters with KPIs</div>
-          <div class="pricing-feature"><span class="icon-check" aria-hidden="true">✓</span> 29 SOPs covering every major business process</div>
-          <div class="pricing-feature"><span class="icon-check" aria-hidden="true">✓</span> Governance, finance, security, and brand systems</div>
-          <div class="pricing-feature"><span class="icon-check" aria-hidden="true">✓</span> Works with any AI agent, any framework, any editor</div>
-        </div>
-        <a href="#" class="btn btn--primary" style="width:100%">Get CorporateOS — $49</a>
-        <div class="guarantee-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
-          30-day money-back guarantee — no questions asked
-        </div>
-      </div>
-
-      <!-- CorporateOS Full Bundle -->
-      <div class="pricing-card pricing-card--featured">
-        <span class="pricing-popular">Best Value — Save $7</span>
-        <div class="pricing-tier">CorporateOS Full Bundle</div>
-        <div class="pricing-price">$129</div>
-        <p class="pricing-desc">Everything in Core plus three specialized modules.</p>
-        <div class="pricing-features">
-          <div class="pricing-feature"><span class="icon-check" aria-hidden="true">✓</span> Everything in Core</div>
-          <div class="pricing-feature"><span class="icon-check" aria-hidden="true">✓</span> Agent Architecture Add-On — multi-agent orchestration and delegation frameworks</div>
-          <div class="pricing-feature"><span class="icon-check" aria-hidden="true">✓</span> Content & Brand Add-On — content systems, editorial workflows, brand standards</div>
-          <div class="pricing-feature"><span class="icon-check" aria-hidden="true">✓</span> Advanced Finance Add-On — revenue tracking, unit economics, fundraising prep</div>
-        </div>
-        <a href="#" class="btn btn--primary" style="width:100%">Get Everything — $129</a>
-        <div class="guarantee-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
-          30-day money-back guarantee — no questions asked
-        </div>
-      </div>
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p>CorporateOS by The Forge — © 2026</p>
     </div>
-
-    <div class="pricing-addons">
-      <div class="pricing-addons-title">Need just one add-on?</div>
-      <div class="pricing-addons-list">
-        Each add-on is $29 and requires Core.<br>
-        Agent Architecture Add-On — $29 · Content & Brand Add-On — $29 · Advanced Finance Add-On — $29
-      </div>
-    </div>
-
-    <div class="pricing-upgrade">
-      Already own Core? <a href="#">Upgrade to the Full Bundle for $80 →</a>
-    </div>
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════
-     7. DEMO / PREVIEW — See what you're buying
-     Palmer: #1 conversion element for digital products
-     ═══════════════════════════════════════════════════ -->
-<section class="section demo" id="demo">
-  <div class="container">
-    <div class="section-header">
-      <span class="section-label">Preview</span>
-      <h2 class="section-title">See what you're buying.</h2>
-      <p class="section-subtitle">Every file reads like this — specific, actionable, ready to customize.</p>
-    </div>
-
-    <div class="demo-preview">
-      <!-- File 1: CEO Charter -->
-      <div class="demo-file">
-        <div class="demo-file-header">
-          <span class="demo-file-dot" style="background:var(--cos-blue-400);" aria-hidden="true"></span>
-          CEO_CHARTER.md
-        </div>
-        <div class="demo-file-body">
-          <h4>CEO Charter</h4>
-          <p>
-            <span class="field-label">Scope:</span>
-            <span class="field-value">Final authority on strategy, capital allocation, and executive hiring. Accountable to the board for company performance.</span>
-          </p>
-          <p>
-            <span class="field-label">Key Metrics:</span>
-            <span class="field-value">Revenue growth rate, burn rate, team retention, quarterly OKR completion.</span>
-          </p>
-          <p>
-            <span class="field-label">Decision Authority:</span>
-            <span class="field-value">Approves all spending >$10,000. Hires/fires direct reports. Sets quarterly priorities.</span>
-          </p>
-        </div>
-      </div>
-
-      <!-- File 2: Hiring SOP -->
-      <div class="demo-file">
-        <div class="demo-file-header">
-          <span class="demo-file-dot" style="background:var(--cos-green-400);" aria-hidden="true"></span>
-          HIRING_SOP.md
-        </div>
-        <div class="demo-file-body">
-          <h4>Hiring Standard Operating Procedure</h4>
-          <p>
-            <span class="field-label">Step 1:</span>
-            <span class="field-value">Hiring manager opens a role request with justification and budget impact.</span>
-          </p>
-          <p>
-            <span class="field-label">Step 2:</span>
-            <span class="field-value">Department head reviews and approves within 48 hours.</span>
-          </p>
-          <p>
-            <span class="field-label">Step 3:</span>
-            <span class="field-value">Finance confirms headcount budget. Role posted within 24 hours of approval.</span>
-          </p>
-        </div>
-      </div>
-
-      <!-- File 3: Budget Tracking -->
-      <div class="demo-file">
-        <div class="demo-file-header">
-          <span class="demo-file-dot" style="background:var(--cos-amber-400);" aria-hidden="true"></span>
-          BUDGET_TRACKING.md
-        </div>
-        <div class="demo-file-body">
-          <h4>Budget Tracking Template</h4>
-          <p>
-            <span class="field-label">Monthly Runway:</span>
-            <span class="field-value">Cash on hand ÷ monthly burn rate. Update weekly.</span>
-          </p>
-          <p>
-            <span class="field-label">Budget Categories:</span>
-            <span class="field-value">Payroll, infrastructure, marketing, tools/services, legal, contingency.</span>
-          </p>
-          <p>
-            <span class="field-label">Alert Threshold:</span>
-            <span class="field-value">If runway drops below 4 months, trigger cost review with CFO and CEO.</span>
-          </p>
-        </div>
-      </div>
-
-      <!-- File 4: Incident Response -->
-      <div class="demo-file">
-        <div class="demo-file-header">
-          <span class="demo-file-dot" style="background:var(--cos-red-500);" aria-hidden="true"></span>
-          INCIDENT_RESPONSE_SOP.md
-        </div>
-        <div class="demo-file-body">
-          <h4>Incident Response Procedure</h4>
-          <p>
-            <span class="field-label">Severity 1 (Critical):</span>
-            <span class="field-value">Service down. All hands. CTO takes command. External comms within 30 minutes.</span>
-          </p>
-          <p>
-            <span class="field-label">Severity 2 (Major):</span>
-            <span class="field-value">Degraded service. On-call team investigates. Update every 60 minutes.</span>
-          </p>
-          <p>
-            <span class="field-label">Post-Incident:</span>
-            <span class="field-value">Blameless retrospective within 48 hours. Action items tracked to completion.</span>
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div class="demo-closer">
-      <p>80+ files. Every one this specific.</p>
-      <a href="#pricing" class="btn btn--primary">Get CorporateOS — $49</a>
-    </div>
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════
-     8. FAQ — Accordion, Ellis copy (7 questions)
-     ═══════════════════════════════════════════════════ -->
-<section class="section" id="faq" style="background:var(--cos-bg-light); border-top: 1px solid var(--cos-border);">
-  <div class="container">
-    <div class="section-header">
-      <span class="section-label">FAQ</span>
-      <h2 class="section-title">Common questions</h2>
-    </div>
-
-    <div class="faq-list">
-      <details class="faq-item">
-        <summary class="faq-question">
-          What format are the files?
-          <span class="faq-arrow" aria-hidden="true">▾</span>
-        </summary>
-        <div class="faq-answer">
-          Markdown (.md). Plain text with lightweight formatting. Opens in any text editor — VS Code, Obsidian, Notion (import), GitHub, or Notepad.
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary class="faq-question">
-          Do I need technical skills?
-          <span class="faq-arrow" aria-hidden="true">▾</span>
-        </summary>
-        <div class="faq-answer">
-          No. If you can edit a text file, you can use CorporateOS. Markdown is simpler than a Word document.
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary class="faq-question">
-          What if it doesn't fit my business?
-          <span class="faq-arrow" aria-hidden="true">▾</span>
-        </summary>
-        <div class="faq-answer">
-          30-day money-back guarantee. If CorporateOS doesn't save you time, email us and we'll refund you. No questions.
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary class="faq-question">
-          Can I customize everything?
-          <span class="faq-arrow" aria-hidden="true">▾</span>
-        </summary>
-        <div class="faq-answer">
-          Yes. Every file is yours to edit. Change names, adjust processes, delete sections, add your own. There's no license restriction on modification.
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary class="faq-question">
-          Does this work with AI agents?
-          <span class="faq-arrow" aria-hidden="true">▾</span>
-        </summary>
-        <div class="faq-answer">
-          Yes. Markdown is the format AI agents read natively — ChatGPT, Claude, Gemini, custom agents, any framework. Point your agent at the directory and it understands your org structure, SOPs, and decision rules immediately.
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary class="faq-question">
-          What's the difference between Core and Full Bundle?
-          <span class="faq-arrow" aria-hidden="true">▾</span>
-        </summary>
-        <div class="faq-answer">
-          Core includes 80+ files covering governance, SOPs, finance, security, and brand systems — everything a growing company needs to operate. The Full Bundle adds three specialized modules: agent orchestration frameworks, advanced content systems, and deep finance tools.
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary class="faq-question">
-          Is this a subscription?
-          <span class="faq-arrow" aria-hidden="true">▾</span>
-        </summary>
-        <div class="faq-answer">
-          No. You pay once and own the files forever. No recurring fees. No account required. No SaaS platform to log into.
-        </div>
-      </details>
-    </div>
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════
-     9. FINAL CTA — Catch scrollers
-     Repeat pricing, guarantee, strong close
-     ═══════════════════════════════════════════════════ -->
-<section class="section final-cta">
-  <div class="container">
-    <h2 class="final-cta-title">
-      Your business runs on decisions.<br>Give them a system.
-    </h2>
-    <p class="final-cta-sub">
-      80+ files. SOPs, charters, governance, finance, security, brand. Download once, own forever.
-    </p>
-    <div class="final-cta-buttons">
-      <a href="#pricing" class="btn btn--primary btn--large">Get CorporateOS — $49</a>
-      <a href="#pricing" class="btn btn--dark-ghost btn--large">Get Everything — $129</a>
-    </div>
-    <p class="final-cta-note">Pay once. Use forever. No subscriptions. No lock-in. 30-day money-back guarantee.</p>
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════
-     10. FOOTER
-     ═══════════════════════════════════════════════════ -->
-<footer class="footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div>
-        <div class="footer-brand-name">
-          <div class="hero-logo-icon" aria-hidden="true" style="width:24px;height:24px;font-size:0.75rem;">C</div>
-          CorporateOS
-          <span class="endorsement-badge endorsement-badge-light" style="font-size:0.625rem;">by The Forge</span>
-        </div>
-        <p class="footer-brand-desc">
-          The operating system for growing companies. A product by The Forge.
-        </p>
-      </div>
-      <div>
-        <div class="footer-col-title">Product</div>
-        <div class="footer-links">
-          <a href="#whats-inside">What's Inside</a>
-          <a href="#pricing">Pricing</a>
-          <a href="#demo">Preview</a>
-          <a href="#faq">FAQ</a>
-        </div>
-      </div>
-      <div>
-        <div class="footer-col-title">Company</div>
-        <div class="footer-links">
-          <a href="#">About The Forge</a>
-          <a href="#">Blog</a>
-          <a href="#">Contact</a>
-        </div>
-      </div>
-      <div>
-        <div class="footer-col-title">Legal</div>
-        <div class="footer-links">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Service</a>
-          <a href="#">Refund Policy</a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 The Forge. All rights reserved.</span>
-      <span>Built by operators, for operators.</span>
-    </div>
-  </div>
-</footer>
+  </footer>
 
 </body>
 </html>
